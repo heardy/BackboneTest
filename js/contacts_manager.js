@@ -40,6 +40,8 @@ var DirectoryView = Backbone.View.extend({
 		this.collection = new Directory(contacts);
 		this.render();
 		this.$el.find("#filter").append(this.createSelect());
+		this.collection.on("change:filterType", this.filterByType, this);
+		this.collection.on("reset", this.render, this);
 	},
 	render: function () {
 		var that = this;
@@ -70,6 +72,27 @@ var DirectoryView = Backbone.View.extend({
 			}).appendTo(select);
 		});
 		return select;
+	},
+	events: {
+		"change #filter select": "setFilter"
+	},
+	setFilter: function(e){
+		this.filterType = e.currentTarget.value;
+		this.trigger("change:filterType");
+	},
+	filterByType: function(){
+		if (this.filterType === "all") {
+			this.collection.reset(contacts);
+		} else {
+			this.collection.reset(contacts, { silent: true });
+
+			var filterType = this.filterType,
+				filtered = _.filter(this.collection.models, function (item) {
+				return item.get("type").toLowerCase() === filterType;
+			});
+
+			this.collection.reset(filtered);
+		}
 	}
 });
 
