@@ -1,4 +1,6 @@
 (function ($) {
+
+//demo data
 var contacts = [
 	{ name: "Contact 1", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "family" },
 	{ name: "Contact 2", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "family" },
@@ -11,17 +13,19 @@ var contacts = [
 ];
 
 
-// Placeholder model
+//define product model
 var Contact = Backbone.Model.extend({
 	defaults: {
 		photo: "./img/placeholder.png"
 	}
 });
 
+//define directory collection
 var Directory = Backbone.Collection.extend({
 	model: Contact
 });
 
+//define individual contact view
 var ContactView = Backbone.View.extend({
 	tagName: "article",
 	className: "contact-container",
@@ -34,6 +38,7 @@ var ContactView = Backbone.View.extend({
 	}
 });
 
+//define master view
 var DirectoryView = Backbone.View.extend({
 	el: $("#contacts"),
 	initialize: function () {
@@ -74,13 +79,19 @@ var DirectoryView = Backbone.View.extend({
 		});
 		return select;
 	},
+
+	//add ui events
 	events: {
 		"change #filter select": "setFilter"
 	},
+
+	//Set filter property and fire change event
 	setFilter: function(e){
 		this.filterType = e.currentTarget.value;
 		this.trigger("change:filterType");
 	},
+
+	//filter the view
 	filterByType: function(){
 		if (this.filterType === "all") {
 			this.collection.reset(contacts);
@@ -97,6 +108,7 @@ var DirectoryView = Backbone.View.extend({
 	}
 });
 
+//create instance of master view
 var directory = new DirectoryView();
 
 } (jQuery));
