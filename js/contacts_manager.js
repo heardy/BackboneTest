@@ -40,11 +40,12 @@ var DirectoryView = Backbone.View.extend({
 		this.collection = new Directory(contacts);
 		this.render();
 		this.$el.find("#filter").append(this.createSelect());
-		this.collection.on("change:filterType", this.filterByType, this);
+		this.on("change:filterType", this.filterByType, this);
 		this.collection.on("reset", this.render, this);
 	},
 	render: function () {
 		var that = this;
+		this.$el.find("article").remove();
 		_.each(this.collection.models, function (item) {
 			that.renderContact(item);
 		}, this);
