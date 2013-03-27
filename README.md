@@ -1,4 +1,4 @@
-Backbone example apps and tests
+# Backbone example apps and tests
 
 Docs generate using [Docco](http://jashkenas.github.com/docco/)
 
